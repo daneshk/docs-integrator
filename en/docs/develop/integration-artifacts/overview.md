@@ -2,100 +2,50 @@
 sidebar_position: 1
 sidebar_label: Overview
 title: Integration Artifacts
-description: "Understand the different types of integration artifacts: services, event handlers, file handlers, automations, and more."
+description: "Understand the different types of integration artifacts: automations, services, file handlers, AI agents, and more."
 ---
 
-# Integration Artifacts
+# Integration artifacts
 
-Integration artifacts are the building blocks of your integrations. Each artifact type serves a specific purpose -- exposing an endpoint, reacting to events, processing files, or running scheduled tasks. Understanding these types helps you choose the right approach for each integration scenario.
+Integration artifacts are the building blocks of your integrations. Each artifact type serves a specific purpose — running scheduled tasks, exposing an endpoint, processing files, or orchestrating AI workflows. Understanding these types helps you choose the right approach for each scenario.
 
-## Artifact Overview
+## Artifact types
 
-WSO2 Integrator supports the following artifact types:
+WSO2 Integrator organizes artifacts into four primary categories:
 
-| Category | Artifact | Description |
-|---|---|---|
-| **Automation** | Automation | Runs manually or on a schedule -- data sync, reports, maintenance jobs |
-| **Integration as API** | HTTP Service | Expose integrations as REST APIs |
-| **Integration as API** | GraphQL Service | Expose integrations as GraphQL APIs |
-| **Integration as API** | TCP Service | Raw TCP socket-based services |
-| **Event Integration** | Kafka Service | React to Apache Kafka messages |
-| **Event Integration** | RabbitMQ Service | React to RabbitMQ messages |
-| **Event Integration** | MQTT Service | React to MQTT messages |
-| **Event Integration** | Azure Service Bus | React to Azure Service Bus messages |
-| **Event Integration** | Salesforce Trigger | React to Salesforce events |
-| **Event Integration** | GitHub Trigger | React to GitHub webhook events |
-| **File Integration** | FTP Service | Process files from FTP/FTPS/SFTP servers |
-| **File Integration** | Directory Service | Watch local directories for file arrivals |
-| **Other** | Functions | Reusable code blocks |
-| **Other** | Data Mapper | Visual format transformation |
-| **Other** | Type | Custom data type definitions |
-| **Other** | Connection | Reusable configurations for external systems |
-| **Other** | Configuration | Environment-specific settings |
-
-## Four Primary Integration Types
-
-| Type | Purpose | Trigger |
+| Category | Purpose | Trigger |
 |---|---|---|
 | **Automation** | Sync data, generate reports, run routine jobs | Timer/schedule or manual |
-| **Integration as API** | Expose integration as a real-time API | Incoming HTTP/GraphQL/TCP requests |
-| **Event Integration** | Reactive workflows from message sources | Kafka, RabbitMQ, MQTT messages |
-| **File Integration** | Batch uploads, scheduled file processing | Files appearing in folder/FTP |
+| **Integration as API** | Expose integrations as REST, GraphQL, or TCP endpoints | Incoming HTTP/GraphQL/TCP requests |
+| **File Integration** | Batch processing, scheduled file handling | Files arriving in a folder or FTP/SFTP server |
+| **AI Agent** | Intelligent workflows with LLM reasoning and tool use | Incoming request or scheduled trigger |
+| **Event Integration** | React to messages and events from external systems | Kafka, RabbitMQ, MQTT, Salesforce, GitHub, and more |
 
-## How Artifacts Relate
 
-A typical integration combines multiple artifact types. For example, an order processing system might include:
-
-```
-┌─────────────────┐     ┌──────────────────┐     ┌──────────────────┐
-│  HTTP Service    │────▶│  Event Handler   │────▶│  Data Persistence│
-│  (receive order) │     │  (process order)  │     │  (store order)   │
-└─────────────────┘     └──────────────────┘     └──────────────────┘
-        │                        │
-        ▼                        ▼
-┌─────────────────┐     ┌──────────────────┐
-│  Email           │     │  Automation       │
-│  (confirmation)  │     │  (daily report)   │
-└─────────────────┘     └──────────────────┘
-```
-
-## Creating Artifacts
+## Creating artifacts
 
 You can create artifacts in two ways:
 
-### Visual Designer
+### Visual designer
 
 1. Open the WSO2 Integrator sidebar in VS Code.
 2. Click the **+** button next to the artifact category.
 3. Select the artifact type and configure its properties.
 
-### Code
 
-Create a new `.bal` file and write the artifact definition directly:
-
-```ballerina
-// A simple HTTP service artifact
-import ballerina/http;
-
-service /api on new http:Listener(8090) {
-    resource function get health() returns string {
-        return "OK";
-    }
-}
-```
-
-## Artifact Lifecycle
+## Artifact lifecycle
 
 Every artifact follows the same lifecycle:
 
-1. **Create** -- Define the artifact using the visual designer or code
-2. **Configure** -- Set connection details, parameters, and behavior
-3. **Implement** -- Add the integration logic (flow designer or pro-code)
-4. **Test** -- Validate with Try-It, unit tests, or mocks
-5. **Deploy** -- Package and deploy to a runtime environment
+1. **Create** — define the artifact using the visual designer or code
+2. **Configure** — set connection details, parameters, and behavior
+3. **Implement** — add the integration logic using the flow designer or pro-code
+4. **Test** — validate with Try-It, unit tests, or mocks
+5. **Deploy** — package and deploy to a runtime environment
 
-## What's Next
+## What's next
 
-- [HTTP Service](service/http-service.md) -- Build REST APIs and HTTP services
-- [Kafka](event/kafka.md) -- React to messages from Apache Kafka
-- [Design Logic](/docs/develop/design-logic/overview) -- Build the logic inside your artifacts
+- [HTTP service](service/http-service.md) — build REST APIs and HTTP services
+- [Automation](automation/automation.md) — create scheduled and manual automations
+- [AI agent](/docs/develop/design-logic/overview) — orchestrate LLM-powered workflows
+- [Design logic](/docs/develop/design-logic/overview) — build the logic inside your artifacts

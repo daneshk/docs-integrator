@@ -70,13 +70,7 @@ const sidebars: SidebarsConfig = {
       label: 'Integration Artifacts',
       items: [
         'develop/integration-artifacts/overview',
-        {
-          type: 'category',
-          label: 'Automation',
-          items: [
-            'develop/integration-artifacts/automation/automation',
-          ],
-        },
+        'develop/integration-artifacts/automation/automation',
         {
           type: 'category',
           label: 'Integration as API',
