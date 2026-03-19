@@ -621,6 +621,69 @@ const sidebars: SidebarsConfig = {
 
             {
               type: 'category',
+              label: 'HubSpot CRM Associations',
+              link: { type: 'doc', id: 'connectors/catalog/crm-sales/hubspot.crm.associations/overview' },
+              items: [
+                'connectors/catalog/crm-sales/hubspot.crm.associations/setup-guide',
+                'connectors/catalog/crm-sales/hubspot.crm.associations/action-reference',
+              ],
+            },
+            {
+              type: 'category',
+              label: 'HubSpot CRM Associations Schema',
+              link: { type: 'doc', id: 'connectors/catalog/crm-sales/hubspot.crm.associations.schema/overview' },
+              items: [
+                'connectors/catalog/crm-sales/hubspot.crm.associations.schema/setup-guide',
+                'connectors/catalog/crm-sales/hubspot.crm.associations.schema/action-reference',
+              ],
+            },
+            {
+              type: 'category',
+              label: 'HubSpot CRM Commerce Carts',
+              link: { type: 'doc', id: 'connectors/catalog/crm-sales/hubspot.crm.commerce.carts/overview' },
+              items: [
+                'connectors/catalog/crm-sales/hubspot.crm.commerce.carts/setup-guide',
+                'connectors/catalog/crm-sales/hubspot.crm.commerce.carts/action-reference',
+              ],
+            },
+            {
+              type: 'category',
+              label: 'HubSpot CRM Commerce Discounts',
+              link: { type: 'doc', id: 'connectors/catalog/crm-sales/hubspot.crm.commerce.discounts/overview' },
+              items: [
+                'connectors/catalog/crm-sales/hubspot.crm.commerce.discounts/setup-guide',
+                'connectors/catalog/crm-sales/hubspot.crm.commerce.discounts/action-reference',
+              ],
+            },
+            {
+              type: 'category',
+              label: 'HubSpot CRM Commerce Orders',
+              link: { type: 'doc', id: 'connectors/catalog/crm-sales/hubspot.crm.commerce.orders/overview' },
+              items: [
+                'connectors/catalog/crm-sales/hubspot.crm.commerce.orders/setup-guide',
+                'connectors/catalog/crm-sales/hubspot.crm.commerce.orders/action-reference',
+              ],
+            },
+            {
+              type: 'category',
+              label: 'HubSpot CRM Commerce Quotes',
+              link: { type: 'doc', id: 'connectors/catalog/crm-sales/hubspot.crm.commerce.quotes/overview' },
+              items: [
+                'connectors/catalog/crm-sales/hubspot.crm.commerce.quotes/setup-guide',
+                'connectors/catalog/crm-sales/hubspot.crm.commerce.quotes/action-reference',
+              ],
+            },
+            {
+              type: 'category',
+              label: 'HubSpot CRM Commerce Taxes',
+              link: { type: 'doc', id: 'connectors/catalog/crm-sales/hubspot.crm.commerce.taxes/overview' },
+              items: [
+                'connectors/catalog/crm-sales/hubspot.crm.commerce.taxes/setup-guide',
+                'connectors/catalog/crm-sales/hubspot.crm.commerce.taxes/action-reference',
+              ],
+            },
+            {
+              type: 'category',
               label: 'HubSpot CRM Companies',
               link: { type: 'doc', id: 'connectors/catalog/crm-sales/hubspot.crm.obj.companies/overview' },
               items: [
@@ -641,6 +704,15 @@ const sidebars: SidebarsConfig = {
 
             {
               type: 'category',
+              label: 'HubSpot CRM Import',
+              link: { type: 'doc', id: 'connectors/catalog/crm-sales/hubspot.crm.import/overview' },
+              items: [
+                'connectors/catalog/crm-sales/hubspot.crm.import/setup-guide',
+                'connectors/catalog/crm-sales/hubspot.crm.import/action-reference',
+              ],
+            },
+            {
+              type: 'category',
               label: 'HubSpot CRM Leads',
               link: { type: 'doc', id: 'connectors/catalog/crm-sales/hubspot.crm.obj.leads/overview' },
               items: [
@@ -649,6 +721,69 @@ const sidebars: SidebarsConfig = {
               ],
             },
 
+            {
+              type: 'category',
+              label: 'HubSpot CRM Engagement Notes',
+              link: { type: 'doc', id: 'connectors/catalog/crm-sales/hubspot.crm.engagement.notes/overview' },
+              items: [
+                'connectors/catalog/crm-sales/hubspot.crm.engagement.notes/setup-guide',
+                'connectors/catalog/crm-sales/hubspot.crm.engagement.notes/action-reference',
+              ],
+            },
+            {
+              type: 'category',
+              label: 'HubSpot CRM Engagements Calls',
+              link: { type: 'doc', id: 'connectors/catalog/crm-sales/hubspot.crm.engagements.calls/overview' },
+              items: [
+                'connectors/catalog/crm-sales/hubspot.crm.engagements.calls/setup-guide',
+                'connectors/catalog/crm-sales/hubspot.crm.engagements.calls/action-reference',
+              ],
+            },
+            {
+              type: 'category',
+              label: 'HubSpot CRM Engagements Communications',
+              link: { type: 'doc', id: 'connectors/catalog/crm-sales/hubspot.crm.engagements.communications/overview' },
+              items: [
+                'connectors/catalog/crm-sales/hubspot.crm.engagements.communications/setup-guide',
+                'connectors/catalog/crm-sales/hubspot.crm.engagements.communications/action-reference',
+              ],
+            },
+            {
+              type: 'category',
+              label: 'HubSpot CRM Engagements Email',
+              link: { type: 'doc', id: 'connectors/catalog/crm-sales/hubspot.crm.engagements.email/overview' },
+              items: [
+                'connectors/catalog/crm-sales/hubspot.crm.engagements.email/setup-guide',
+                'connectors/catalog/crm-sales/hubspot.crm.engagements.email/action-reference',
+              ],
+            },
+            {
+              type: 'category',
+              label: 'HubSpot CRM Engagements Tasks',
+              link: { type: 'doc', id: 'connectors/catalog/crm-sales/hubspot.crm.engagements.tasks/overview' },
+              items: [
+                'connectors/catalog/crm-sales/hubspot.crm.engagements.tasks/setup-guide',
+                'connectors/catalog/crm-sales/hubspot.crm.engagements.tasks/action-reference',
+              ],
+            },
+            {
+              type: 'category',
+              label: 'HubSpot CRM Extensions Timelines',
+              link: { type: 'doc', id: 'connectors/catalog/crm-sales/hubspot.crm.extensions.timelines/overview' },
+              items: [
+                'connectors/catalog/crm-sales/hubspot.crm.extensions.timelines/setup-guide',
+                'connectors/catalog/crm-sales/hubspot.crm.extensions.timelines/action-reference',
+              ],
+            },
+            {
+              type: 'category',
+              label: 'HubSpot CRM Extensions Videoconferencing',
+              link: { type: 'doc', id: 'connectors/catalog/crm-sales/hubspot.crm.extensions.videoconferencing/overview' },
+              items: [
+                'connectors/catalog/crm-sales/hubspot.crm.extensions.videoconferencing/setup-guide',
+                'connectors/catalog/crm-sales/hubspot.crm.extensions.videoconferencing/action-reference',
+              ],
+            },
             {
               type: 'category',
               label: 'HubSpot CRM Feedback',
@@ -679,6 +814,60 @@ const sidebars: SidebarsConfig = {
               ],
             },
 
+            {
+              type: 'category',
+              label: 'HubSpot CRM Lists',
+              link: { type: 'doc', id: 'connectors/catalog/crm-sales/hubspot.crm.lists/overview' },
+              items: [
+                'connectors/catalog/crm-sales/hubspot.crm.lists/setup-guide',
+                'connectors/catalog/crm-sales/hubspot.crm.lists/action-reference',
+              ],
+            },
+            {
+              type: 'category',
+              label: 'HubSpot CRM Owners',
+              link: { type: 'doc', id: 'connectors/catalog/crm-sales/hubspot.crm.owners/overview' },
+              items: [
+                'connectors/catalog/crm-sales/hubspot.crm.owners/setup-guide',
+                'connectors/catalog/crm-sales/hubspot.crm.owners/action-reference',
+              ],
+            },
+            {
+              type: 'category',
+              label: 'HubSpot CRM Pipelines',
+              link: { type: 'doc', id: 'connectors/catalog/crm-sales/hubspot.crm.pipelines/overview' },
+              items: [
+                'connectors/catalog/crm-sales/hubspot.crm.pipelines/setup-guide',
+                'connectors/catalog/crm-sales/hubspot.crm.pipelines/action-reference',
+              ],
+            },
+            {
+              type: 'category',
+              label: 'HubSpot CRM Products',
+              link: { type: 'doc', id: 'connectors/catalog/crm-sales/hubspot.crm.obj.products/overview' },
+              items: [
+                'connectors/catalog/crm-sales/hubspot.crm.obj.products/setup-guide',
+                'connectors/catalog/crm-sales/hubspot.crm.obj.products/action-reference',
+              ],
+            },
+            {
+              type: 'category',
+              label: 'HubSpot CRM Properties',
+              link: { type: 'doc', id: 'connectors/catalog/crm-sales/hubspot.crm.properties/overview' },
+              items: [
+                'connectors/catalog/crm-sales/hubspot.crm.properties/setup-guide',
+                'connectors/catalog/crm-sales/hubspot.crm.properties/action-reference',
+              ],
+            },
+            {
+              type: 'category',
+              label: 'HubSpot CRM Schemas',
+              link: { type: 'doc', id: 'connectors/catalog/crm-sales/hubspot.crm.obj.schemas/overview' },
+              items: [
+                'connectors/catalog/crm-sales/hubspot.crm.obj.schemas/setup-guide',
+                'connectors/catalog/crm-sales/hubspot.crm.obj.schemas/action-reference',
+              ],
+            },
             {
               type: 'category',
               label: 'HubSpot CRM Tickets',
@@ -1142,6 +1331,24 @@ const sidebars: SidebarsConfig = {
 
             {
               type: 'category',
+              label: 'HubSpot Marketing Campaigns',
+              link: { type: 'doc', id: 'connectors/catalog/marketing-social/hubspot.marketing.campaigns/overview' },
+              items: [
+                'connectors/catalog/marketing-social/hubspot.marketing.campaigns/setup-guide',
+                'connectors/catalog/marketing-social/hubspot.marketing.campaigns/action-reference',
+              ],
+            },
+            {
+              type: 'category',
+              label: 'HubSpot Marketing Emails',
+              link: { type: 'doc', id: 'connectors/catalog/marketing-social/hubspot.marketing.emails/overview' },
+              items: [
+                'connectors/catalog/marketing-social/hubspot.marketing.emails/setup-guide',
+                'connectors/catalog/marketing-social/hubspot.marketing.emails/action-reference',
+              ],
+            },
+            {
+              type: 'category',
               label: 'HubSpot Marketing Events',
               link: { type: 'doc', id: 'connectors/catalog/marketing-social/hubspot.marketing.events/overview' },
               items: [
@@ -1150,6 +1357,15 @@ const sidebars: SidebarsConfig = {
               ],
             },
 
+            {
+              type: 'category',
+              label: 'HubSpot Marketing Forms',
+              link: { type: 'doc', id: 'connectors/catalog/marketing-social/hubspot.marketing.forms/overview' },
+              items: [
+                'connectors/catalog/marketing-social/hubspot.marketing.forms/setup-guide',
+                'connectors/catalog/marketing-social/hubspot.marketing.forms/action-reference',
+              ],
+            },
             {
               type: 'category',
               label: 'HubSpot Marketing Subscriptions',
@@ -1468,7 +1684,15 @@ const sidebars: SidebarsConfig = {
                 'connectors/catalog/storage-file/alfresco/action-reference',
               ],
             },
-
+            {
+              type: 'category',
+              label: 'Azure Storage Service',
+              link: { type: 'doc', id: 'connectors/catalog/storage-file/azure_storage_service/overview' },
+              items: [
+                'connectors/catalog/storage-file/azure_storage_service/setup-guide',
+                'connectors/catalog/storage-file/azure_storage_service/action-reference',
+              ],
+            },
             {
               type: 'category',
               label: 'Microsoft OneDrive',
