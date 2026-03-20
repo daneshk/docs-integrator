@@ -4,6 +4,9 @@ title: XML Processing
 description: Parse, construct, transform, and validate XML data.
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 # XML Processing
 
 Work with XML data -- common in enterprise and legacy system integrations. Ballerina provides `xml` as a first-class type with native literal syntax, navigation, iteration, and conversion capabilities.
@@ -156,9 +159,27 @@ public function main() {
 }
 ```
 
-## XML to Record Conversion
+## XML to record conversion
 
 Use the `ballerina/data.xmldata` module to convert XML into typed Ballerina records for safer manipulation.
+
+<Tabs>
+<TabItem value="ui" label="Visual Designer" default>
+
+1. **Define the target record types** — Navigate to **Types** in the sidebar and click **+** to add a new type. Select the **Import** tab in the right-hand panel, then paste the record definitions for `PurchaseOrder`, `ShipTo`, and `Item`. For details on creating types, see [Types](../integration-artifacts/supporting/types.md).
+
+   ![New Type panel showing the Import tab with XML format selected](/img/develop/transform/xml/types-import-tab.png)
+
+2. **Add a Variable step** — Open your resource function in the flow designer. Add a **Variable** step, set the type to `PurchaseOrder`, and set the expression to `check xmldata:parseAsType(payload)`.
+
+   ![Flow designer showing the xmldata parseAsType variable step and mapOrder transformation in the processXml resource](/img/develop/transform/xml/flow-xml-parse-step.png)
+
+3. **Map fields visually** — To transform the parsed record into another type, use the [Visual Data Mapper](data-mapper.md).
+
+   ![Data Mapper showing PurchaseOrder input fields on the left and OrderSummary output fields on the right](/img/develop/transform/xml/data-mapper-xml-to-record.png)
+
+</TabItem>
+<TabItem value="code" label="Ballerina Code">
 
 ```ballerina
 import ballerina/data.xmldata;
@@ -203,9 +224,26 @@ public function main() returns error? {
 }
 ```
 
-## Record to XML Conversion
+</TabItem>
+</Tabs>
+
+## Record to XML conversion
 
 Convert Ballerina records back to XML using `xmldata:toXml()`.
+
+<Tabs>
+<TabItem value="ui" label="Visual Designer" default>
+
+1. **Define the record type** — Navigate to **Types** in the sidebar and click **+** to add a new type. Select the **Import** tab in the right-hand panel, then paste the record definition (for example, `Invoice`). For details on creating types, see [Types](../integration-artifacts/supporting/types.md).
+
+   ![New Type panel showing the Import tab with XML format selected](/img/develop/transform/xml/types-import-tab.png)
+
+2. **Add a Variable step** — In the flow designer, add a **Variable** step, set the type to `xml`, and set the expression to `check xmldata:toXml(inv)`.
+
+The same flow designer pattern shown in the [XML to record conversion](#xml-to-record-conversion) section applies here — each `xmldata` function call appears as a dedicated step in the flow.
+
+</TabItem>
+<TabItem value="code" label="Ballerina Code">
 
 ```ballerina
 import ballerina/data.xmldata;
@@ -228,9 +266,28 @@ public function main() returns error? {
 }
 ```
 
-## XML to JSON Conversion
+</TabItem>
+</Tabs>
+
+## XML to JSON conversion
 
 Convert between XML and JSON using `xmldata:toJson()` and `xmldata:fromJson()`.
+
+<Tabs>
+<TabItem value="ui" label="Visual Designer" default>
+
+1. **Define the record types** — Navigate to **Types** in the sidebar and click **+** to add a new type. Select the **Import** tab in the right-hand panel, then paste the record definitions for both the source and target types. For details on creating types, see [Types](../integration-artifacts/supporting/types.md).
+
+   ![New Type panel showing the Import tab with XML format selected](/img/develop/transform/xml/types-import-tab.png)
+
+2. **Add Variable steps** — In the flow designer, add a **Variable** step with the expression `check xmldata:parseAsType(payload)` to parse XML into a typed record. Then add a second **Variable** step or a **Return** step with the expression `record.toJson()` to convert the record to JSON.
+
+   ![Flow designer showing the XML parse, mapOrder, and toJson return steps in sequence](/img/develop/transform/xml/flow-xml-parse-step.png)
+
+3. **Map fields visually** — To map fields between the parsed XML record and a target record before converting to JSON, use the [Visual Data Mapper](data-mapper.md).
+
+</TabItem>
+<TabItem value="code" label="Ballerina Code">
 
 ```ballerina
 import ballerina/data.xmldata;
@@ -252,6 +309,9 @@ public function main() returns error? {
     io:println(result);
 }
 ```
+
+</TabItem>
+</Tabs>
 
 ## Best Practices
 

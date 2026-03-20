@@ -216,6 +216,7 @@ const sidebars: SidebarsConfig = {
         {
           type: 'category',
           label: 'Tools',
+          link: { type: 'doc', id: 'develop/tools/overview' },
           items: [
             'develop/tools/migration-tools',
             'develop/tools/openapi-tool',
