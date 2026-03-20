@@ -1,4 +1,5 @@
 import type {SidebarsConfig} from '@docusaurus/plugin-content-docs';
+import { connectorVersionedDocs } from './src/utils/sidebarUtils';
 
 /**
  * WSO2 Integrator Documentation — Sidebar Configuration
@@ -519,6 +520,7 @@ const sidebars: SidebarsConfig = {
               items: [
                 'connectors/catalog/communication/twilio/setup-guide',
                 'connectors/catalog/communication/twilio/action-reference',
+                ...connectorVersionedDocs('connectors/catalog/communication/twilio'),
               ],
             },
 
