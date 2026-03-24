@@ -1,40 +1,79 @@
 ---
-title: Connectors Overview
-sidebar_label: Overview
-slug: /connectors/overview
+title: "Connectors Overview"
+description: "Connect WSO2 Integrator to external services, APIs, databases, and messaging systems."
 ---
 
-# Connectors
+# Connectors Overview
 
-WSO2 Integrator provides 200+ pre-built connectors for SaaS applications, databases, messaging systems, cloud services, and AI platforms. Connectors let you integrate with external systems without writing low-level protocol code.
+Send a Slack notification when an order ships. Read customer records from Salesforce. Write results to a Google Sheet. Query a database and return the data in an API response.
 
-## Connector Catalog
+Connectors make these integrations possible—without writing low-level HTTP or protocol code. WSO2 Integrator includes 200+ pre-built connectors for the services your business already uses.
 
-Browse connectors by category:
+## How connectors fit into your integration
 
-- **[AI & Machine Learning](catalog/ai-ml/index.md)** — OpenAI, Claude, Vertex, Bedrock, and more
-- **[Cloud & Infrastructure](catalog/cloud-infrastructure/index.md)** — AWS, Azure, GCP, Terraform, and more
-- **[Communication](catalog/communication/index.md)** — Twilio, Email, Slack, and more
-- **[CRM & Sales](catalog/crm-sales/index.md)** — Salesforce, HubSpot, Pipedrive, Zoho CRM, and more
-- **[Database](catalog/database/index.md)** — MySQL, PostgreSQL, MSSQL, Oracle, MongoDB, Redis, and more
-- **[Developer Tools](catalog/developer-tools/index.md)** — GitHub, GitLab, Jira, Jenkins, and more
-- **[E-Commerce](catalog/ecommerce/index.md)** — Shopify, WooCommerce, Stripe, and more
-- **[ERP & Business Operations](catalog/erp-business/index.md)** — SAP, NetSuite, Workday, and more
-- **[Finance & Accounting](catalog/finance-accounting/index.md)** — QuickBooks, Xero, Plaid, and more
-- **[Healthcare](catalog/healthcare/index.md)** — FHIR/HL7, Epic, Cerner, and more
-- **[HRMS](catalog/hrms/index.md)** — BambooHR, Workday HCM, ADP, and more
-- **[Marketing & Social Media](catalog/marketing-social/index.md)** — Mailchimp, Meta Ads, Google Ads, and more
-- **[Messaging](catalog/messaging/index.md)** — Kafka, RabbitMQ, NATS, MQTT, JMS
-- **[Productivity & Collaboration](catalog/productivity-collaboration/index.md)** — Google Workspace, Microsoft 365, Notion, and more
-- **[Security & Identity](catalog/security-identity/index.md)** — OAuth, LDAP, Okta, Auth0, and more
-- **[Storage & File Management](catalog/storage-file/index.md)** — S3, Azure Blob, Google Drive, FTP, SFTP
+Every integration in WSO2 Integrator follows the same pattern:
 
-## Using Connectors
+```mermaid
+flowchart LR
+    A([Trigger])
 
-- **[Configuration](configuration.md)** — How to configure connectors in your project
-- **[Error Handling](error-handling.md)** — Handling connector errors and retries
+    A --> B
 
-## Build Your Own
+    B["Transform & route
+    (map, filter, branch)"]
 
-- **[Create from OpenAPI Spec](build-your-own/create-from-openapi.md)** — Generate connectors directly in the IDE from an OpenAPI definition
-- **[Custom Development](build-your-own/custom-development.md)** — Build a connector from scratch using Ballerina
+    B --> C
+
+    subgraph connector["Connector"]
+        C["Connector action
+        (call external service)"]
+    end
+
+    C --> D
+
+    D["Handle response
+    (error handling, retry)"]
+
+    D --> E([Output])
+
+    style A fill:#EEEDFE,stroke:#534AB7,color:#3C3489
+    style B fill:#F1EFE8,stroke:#5F5E5A,color:#444441
+    style C fill:#FAECE7,stroke:#993C1D,color:#712B13
+    style D fill:#F1EFE8,stroke:#5F5E5A,color:#444441
+    style E fill:#E1F5EE,stroke:#0F6E56,color:#085041
+    style connector fill:#fafafa,stroke:#cbd5e1,stroke-dasharray:5 5,color:#64748b
+```
+
+The connector action is where WSO2 Integrator communicates with the external service.
+
+## Key concepts
+
+### Connector
+
+A connector is a pre-built integration component (implemented as a Ballerina package) that wraps an external service's API into ready-to-use operations. Instead of constructing HTTP requests and parsing responses by hand, you select an action from the connector's list and configure its inputs.
+
+### Connection
+
+A connection is a named, reusable configuration that holds the credentials and endpoint settings for an external service—API keys, OAuth tokens, hostnames. You define it once; every action in your integration uses it by name.
+
+For details on creating and managing connections, see [Connections](../develop/integration-artifacts/supporting/connections.md).
+
+### Action
+
+An action is a specific operation you invoke through a connection—"send SMS", "create contact", "execute query". Each connector exposes a list of available actions. Actions are outbound: your integration calls the external service.
+
+### Trigger
+
+Some connectors also support triggers—inbound events the external service pushes into your integration. A database trigger fires when a row changes. A messaging trigger fires when a new message arrives.
+
+| | Actions | Triggers |
+|---|---|---|
+| Direction | Your integration calls the service | The service calls your integration |
+| Example | Send an SMS, create a Salesforce record | New database row, incoming webhook |
+
+Most connectors are action-only. Trigger support is available for select connectors—primarily databases (MySQL, PostgreSQL, MSSQL), messaging systems (Kafka, RabbitMQ), and file storage. See each connector's documentation for what's available.
+
+## Next steps
+
+- [Connector catalog](catalog/index.md) — Browse all available connectors
+- [Connections](../develop/integration-artifacts/supporting/connections.md) — Create and manage connections
