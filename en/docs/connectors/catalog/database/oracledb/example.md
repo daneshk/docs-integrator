@@ -84,9 +84,9 @@ In the **Configure OracleDB** dialog, scroll down to the **Advanced Configuratio
 
 Under **oracledbClient**, click **execute** to open the Execute operation form, then fill in the fields:
 
-- **SQL Query** — The SQL statement to run against the database (for example, an INSERT into the Employees table)
-- **Result Variable Name** — The variable that stores the execution result (for example, `sqlExecutionresult`)
-- **Result Type** — The type of the result variable (for example, `sql:ExecutionResult`)
+- **SQL Query** : The SQL statement to run against the database (for example, an INSERT into the Employees table)
+- **Result Variable Name** : The variable that stores the execution result (for example, `sqlExecutionresult`)
+- **Result Type** : The type of the result variable (for example, `sql:ExecutionResult`)
 
 Click **Save**.
 
