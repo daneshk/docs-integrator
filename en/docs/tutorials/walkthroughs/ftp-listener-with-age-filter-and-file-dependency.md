@@ -10,7 +10,7 @@ Build an FTP file processing service that watches a directory for order batch CS
 
 ## What You'll Build
 
-An FTP listener that monitors `/orders/` for batch CSV files (e.g. `orders_42.csv`). Each batch has a corresponding marker file (`orders_42.final`) uploaded separately to signal that the CSV is fully written. The service waits until both files exist before processing, logs each order record, then deletes the processed files automatically.
+An FTP listener that monitors the root directory for batch CSV files (e.g. `orders_42.csv`). Each batch has a corresponding marker file (`orders_42.final`) uploaded separately to signal that the CSV is fully written. The service waits until both files exist before processing, logs each order record, then deletes the processed files automatically.
 
 ## What You'll Learn
 
@@ -34,7 +34,7 @@ An FTP listener that monitors `/orders/` for batch CSV files (e.g. `orders_42.cs
 ## Architecture
 
 ```text
-FTP Server (/orders/)
+FTP Server (root /)
   ├── orders_42.csv        ← batch data (uploaded first)
   └── orders_42.final      ← marker file (uploaded after CSV is complete)
           │
@@ -170,8 +170,8 @@ services:
   ftp:
     image: stilliard/pure-ftpd
     environment:
-      - FTP_USER_NAME=admin
-      - FTP_USER_PASS=admin
+      - FTP_USER_NAME=${FTP_USER}
+      - FTP_USER_PASS=${FTP_PASS}
       - FTP_USER_HOME=/home/ballerina
     ports:
       - "21:21"
@@ -192,14 +192,17 @@ Start the Ballerina service:
 bal run
 ```
 
-Upload the CSV first, then the marker file:
+Set your credentials as environment variables, then upload the CSV first followed by the marker file:
 
 ```bash
+export FTP_USER=admin
+export FTP_PASS=admin
+
 # 1. Upload the batch data
-curl -T sample-data/orders_42.csv ftp://127.0.0.1/orders_42.csv --user admin:admin
+curl -T sample-data/orders_42.csv ftp://127.0.0.1/orders_42.csv --user "$FTP_USER:$FTP_PASS"
 
 # 2. Upload the marker to signal the CSV is fully written
-curl -T sample-data/orders_42.final ftp://127.0.0.1/orders_42.final --user admin:admin
+curl -T sample-data/orders_42.final ftp://127.0.0.1/orders_42.final --user "$FTP_USER:$FTP_PASS"
 ```
 
 The listener detects both files exist within the age window and fires `onFileCsv`. After processing, both files are deleted from the FTP server. Expected output:
@@ -219,8 +222,8 @@ The `fileAgeFilter` has two bounds — you can verify each one independently.
 Upload both files and immediately check whether the listener fires within the first 30 seconds. It should stay silent until the CSV is at least 30 seconds old:
 
 ```bash
-curl -T sample-data/orders_42.csv ftp://127.0.0.1/orders_42.csv --user admin:admin
-curl -T sample-data/orders_42.final ftp://127.0.0.1/orders_42.final --user admin:admin
+curl -T sample-data/orders_42.csv ftp://127.0.0.1/orders_42.csv --user "$FTP_USER:$FTP_PASS"
+curl -T sample-data/orders_42.final ftp://127.0.0.1/orders_42.final --user "$FTP_USER:$FTP_PASS"
 # wait < 30s — no output expected yet
 # wait > 30s — onFileCsv fires on the next poll
 ```
@@ -231,7 +234,7 @@ Override `maxAgeSeconds` to a small value before starting the service so a fresh
 
 Upload the files and wait more than 5 seconds before uploading the marker. The CSV will be skipped as stale and no output will appear.
 
-If you upload both files and wait between 30 seconds and 1 hour, The listener will correctly picks them up on the next poll cycle and processes normally.
+If you upload both files and wait between 30 seconds and 1 hour, the listener will correctly pick them up on the next poll cycle and process them normally.
 
 ## Extend It
 
