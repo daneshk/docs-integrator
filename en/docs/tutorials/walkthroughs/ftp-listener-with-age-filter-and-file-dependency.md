@@ -108,22 +108,14 @@ import ballerina/data.csv;
 import ballerina/ftp;
 import ballerina/log;
 
-listener ftp:Listener ftpListener = new (
-    host = ftpHost,
-    port = ftpPort,
-    auth = {
-      credentials: {
-        username: ftpUser,
-        password: ftpPassword
-      }
-    },
-    userDirIsRoot = true, 
-    pollingInterval = 10
+listener ftp:Listener ftpListener = new (protocol = ftp:FTP, host = "127.0.0.1", port = 21,
+    auth = {credentials: {username: ftpUser, password: ftpPassword}},
+    userDirIsRoot = true, pollingInterval = 10
 );
 
 @ftp:ServiceConfig {
     path: "/",
-    fileNamePattern: "orders_.*\\.(csv|ready)",
+    fileNamePattern: "orders_.*\\.csv",
     fileAgeFilter: {
         minAge: minAgeSeconds,
         maxAge: maxAgeSeconds
