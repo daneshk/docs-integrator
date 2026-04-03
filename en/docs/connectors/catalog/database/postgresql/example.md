@@ -22,11 +22,11 @@ flowchart LR
 
 ## Setting up the PostgreSQL integration
 
-Set up the integration project by following the [WSO2 Integrator project creation guide](https://wso2.com/integrator/docs/create-project).
+> **New to WSO2 Integrator?** Follow the [Create a New Integration](../../../../develop/create-integrations/create-new-integration.md) guide to set up your integration first, then return here to add the connector.
 
 ## Adding the PostgreSQL connector
 
-### Step 1: Open the Add Connection palette
+### Step 1: Open the add connection palette
 
 From the low-code canvas or the sidebar, click **Add Connection** to open the connector palette.
 
@@ -40,15 +40,15 @@ Search for "postgresql" and select the `ballerinax/postgresql` connector card to
 
 ## Configuring the PostgreSQL connection
 
-### Step 3: Bind connection parameters to Configurable variables
+### Step 3: Bind connection parameters to configurable variables
 
 Bind each field in the connection form to a Configurable variable so that deployment environments can supply values without changing code:
 
-- **host** — hostname of the PostgreSQL server
-- **port** — port number the PostgreSQL server listens on
-- **database** — name of the PostgreSQL database to connect to
-- **username** — PostgreSQL username for authentication
-- **password** — PostgreSQL password for authentication
+- **host**: hostname of the PostgreSQL server
+- **port**: port number the PostgreSQL server listens on
+- **database**: name of the PostgreSQL database to connect to
+- **username**: PostgreSQL username for authentication
+- **password**: PostgreSQL password for authentication
 
 ### Step 4: Save the connection
 
@@ -61,15 +61,15 @@ Click **Save** to persist the connection. The connection card `postgresqlClient`
 1. In the left panel, click **Configurations** (at the bottom of the project tree, under Data Mappers).
 2. Set a value for each configurable listed below:
 
-- **postgresHost** — string — hostname of your PostgreSQL server
-- **postgresPort** — int — port your PostgreSQL server listens on
-- **postgresDatabase** — string — name of the target database
-- **postgresUser** — string — PostgreSQL username
-- **postgresPassword** — string — PostgreSQL password
+- **postgresHost**: string : hostname of your PostgreSQL server
+- **postgresPort**: int : port your PostgreSQL server listens on
+- **postgresDatabase**: string : name of the target database
+- **postgresUser**: string : PostgreSQL username
+- **postgresPassword**: string : PostgreSQL password
 
 ## Configuring the PostgreSQL execute operation
 
-### Step 6: Add an Automation entry point
+### Step 6: Add an automation entry point
 
 1. In the sidebar, click **+** next to **Entry Points**.
 2. Select **Automation**.
@@ -86,9 +86,9 @@ On the Automation canvas, click the **+** drop zone between **Start** and **Erro
 
 Select **Execute** to open the configuration form, then fill in the operation fields:
 
-- **SQL Query** — the parameterized SQL statement to execute (for example, an INSERT into your target table)
-- **Result** — variable name to store the execution result (for example, `sqlExecutionresult`)
-- **Result Type** — set to `sql:ExecutionResult`
+- **SQL Query**: the parameterized SQL statement to execute (for example, an INSERT into your target table)
+- **Result**: variable name to store the execution result (for example, `sqlExecutionresult`)
+- **Result Type**: set to `sql:ExecutionResult`
 
 ![Execute operation form with SQL query filled in](/img/connectors/catalog/database/postgresql/postgresql_screenshot_05_execute_operation.png)
 
