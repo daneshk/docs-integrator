@@ -1,122 +1,222 @@
 ---
 sidebar_position: 8
-title: Execute Tests
-description: Run Ballerina tests from the visual designer, CLI, and code editor, configure parallel execution, and manage test output.
+title: Execute tests
+description: Understand the test lifecycle, run tests from the visual designer or CLI, execute tests in parallel, and generate test reports.
 ---
 
-# Execute Tests
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 
-Run your integration tests from the visual designer, the Ballerina CLI, or the code editor. This page covers all the ways to execute tests, control parallelism, filter test runs, and interpret results.
+# Execute tests
 
-## Running Tests from the Visual Designer
+Ballerina executes test functions through a well-defined lifecycle of setup and teardown stages. You can run tests from the WSO2 Integrator visual designer, the code editor, or the Ballerina CLI, and optionally enable parallel execution for faster feedback.
 
-Open your project in WSO2 Integrator and click **Run** (▷) in the toolbar to build and execute all tests. Test results appear in the terminal panel below the designer.
+## Test execution lifecycle
 
-<!-- TODO: Screenshot of visual designer test execution -->
+The test framework runs setup and teardown functions in a fixed order around every test function:
 
-## Running Tests from the CLI
+1. **BeforeSuite** — runs once before all tests in the module.
+2. **BeforeGroups** — runs once before the first test in each listed group.
+3. **BeforeEach** — runs before every individual test function.
+4. **Before (per-test)** — runs before a specific test, set via the `before` field in `@test:Config`.
+5. **Test function** — the actual test.
+6. **After (per-test)** — runs after that specific test, set via the `after` field in `@test:Config`.
+7. **AfterEach** — runs after every individual test function.
+8. **AfterGroups** — runs once after the last test in each listed group.
+9. **AfterSuite** — runs once after all tests in the module complete.
 
-Use the `bal test` command to execute tests in your project.
+```ballerina
+import ballerina/io;
+import ballerina/test;
 
-```bash
-# Run all tests in the current package
-bal test
+// Runs once before all tests
+@test:BeforeSuite
+function beforeSuite() {
+    io:println("Setting up test suite");
+}
 
-# Run tests for a specific module
-bal test --module transforms
+// Runs before the first test in the "integration" group
+@test:BeforeGroups {value: ["integration"]}
+function beforeIntegrationGroup() {
+    io:println("Setting up integration group");
+}
 
-# Run tests in a specific file (by providing the package path)
-bal test mypackage
+// Runs before every test
+@test:BeforeEach
+function beforeEach() {
+    io:println("Setting up individual test");
+}
+
+@test:Config {groups: ["integration"]}
+function testOrderCreation() {
+    test:assertTrue(true, msg = "Order creation failed");
+}
+
+// Runs after every test
+@test:AfterEach
+function afterEach() {
+    io:println("Cleaning up individual test");
+}
+
+// Runs after the last test in the "integration" group
+@test:AfterGroups {value: ["integration"]}
+function afterIntegrationGroup() {
+    io:println("Cleaning up integration group");
+}
+
+// Runs once after all tests
+@test:AfterSuite
+function afterSuite() {
+    io:println("Tearing down test suite");
+}
 ```
 
-## Running Tests from the Code Editor
+### Failure behavior
 
-The WSO2 Integrator code editor provides integrated test execution.
+When a lifecycle function fails, the framework skips or continues subsequent stages as follows:
 
-<!-- TODO: Screenshot of code editor test runner panel -->
-
-1. **Run a single test** -- Click the green play button next to any `@test:Config` function.
-2. **Run all tests in a file** -- Click the play button at the top of a test file.
-3. **Run all tests** -- Use the Testing panel in the sidebar.
-4. **Debug a test** -- Click the debug icon next to a test function to run it with breakpoints enabled.
+| Failed stage | Effect |
+|---|---|
+| **BeforeSuite** | All tests, group-level, and per-test functions are skipped. |
+| **BeforeGroups** | Tests in that group and their teardowns are skipped. `AfterGroups` is also skipped unless `alwaysRun` is enabled. |
+| **BeforeEach** | All remaining tests are skipped. `AfterSuite` still executes. |
+| **Before (per-test)** | That test and its `after` function are skipped. |
+| **Test function** | Other lifecycle functions continue normally. |
+| **AfterEach** | Subsequent `BeforeEach`, `AfterEach`, and tests are skipped. |
 
 :::tip
-You can also press `Ctrl+Shift+P` (or `Cmd+Shift+P` on macOS) and search for **Ballerina: Run All Tests**.
+Set `alwaysRun` to `true` on `@test:AfterGroups` or `@test:AfterSuite` to ensure teardown functions execute even when earlier stages fail. This is useful for releasing resources like database connections or stopping services.
+
+```ballerina
+@test:AfterSuite {alwaysRun: true}
+function cleanupResources() {
+    // Always runs, even if BeforeSuite or tests fail
+}
+```
 :::
 
-## Filtering Tests
+## Run tests
 
-### By Group
+<Tabs>
+<TabItem value="ui" label="Visual Designer" default>
+
+WSO2 Integrator provides a **Test Explorer** panel that lists all tests in your project, organized by integration and group.
+
+![Test Explorer panel showing 5 of 6 tests failed with execution time, test tree organized by groups g1 and g2, and the code editor displaying Run, Debug, and Visualize codelens links with inline error details above each test function](/img/develop/test/execute-tests/test-explorer.png)
+
+To run tests from the visual designer:
+
+1. Click the **Testing** icon (flask) in the left sidebar to open the **Test Explorer**.
+2. Use the controls at the top of the panel:
+   - Click the **Run All Tests** button to execute every test in the project.
+   - Click the **Run** icon next to a specific integration, group, or individual test to run only that subset.
+3. In the code editor, click the **Run** codelens link above any `@test:Config` function to execute that single test. Use **Debug** to run with breakpoints enabled.
+
+Test results appear in the terminal panel. Passed tests show a green checkmark and failed tests show a red cross in the Test Explorer tree.
+
+</TabItem>
+<TabItem value="code" label="Ballerina Code">
+
+Use the `bal test` command to execute tests from the terminal.
+
+### Run all tests
 
 ```bash
-# Run only tests tagged with specific groups
-bal test --groups unit
+bal test
+```
 
-# Run tests in multiple groups
-bal test --groups unit,transform
+### Run specific tests
+
+```bash
+# Run a single test by function name
+bal test --tests testOrderCreation
+
+# Run a test in the default module
+bal test --tests MyPackage:testOrderCreation
+
+# Run all tests in a specific module
+bal test --tests MyPackage.transforms:*
+```
+
+### Run a specific data-driven test case
+
+```bash
+# Run a single case from a data provider
+bal test --tests testOrderCreation#Case1
+```
+
+### Filter by group
+
+```bash
+# List all available groups
+bal test --list-groups
+
+# Run tests in specific groups
+bal test --groups integration,unit
 
 # Exclude specific groups
 bal test --disable-groups slow,flaky
 ```
 
-### By Test Name
+### Rerun failed tests
+
+Focus on fixing failures without rerunning the entire suite.
 
 ```bash
-# Run tests matching a pattern
-bal test --tests testOrderCreation
-
-# Run multiple specific tests
-bal test --tests testOrderCreation,testOrderCancellation
+bal test --rerun-failed
 ```
 
-## Parallel Test Execution
+</TabItem>
+</Tabs>
 
-By default, Ballerina runs tests sequentially within a module. Enable parallel execution for faster test runs when tests are independent.
+## Run tests in parallel
+
+By default, Ballerina runs tests sequentially. Use the `--parallel` flag to enable concurrent execution for faster test runs.
 
 ```bash
-# Enable parallel test execution
 bal test --parallel
 ```
 
-:::caution When to avoid parallel execution
-Avoid parallel execution when tests share mutable state, use the same database tables, or bind to the same network ports. Use sequential execution or test groups to isolate conflicting tests.
-:::
+### Concurrency safety requirements
 
-### Controlling Parallelism
+The framework evaluates each test for concurrency safety before running it in parallel. A test must meet all of the following conditions:
 
-```bash
-# Run with a specific number of parallel workers
-bal test --parallel --workers 4
-```
+- **Test function** must be `isolated`. If the function is not publicly exposed and meets all conditions for `isolated` functions, the compiler infers it automatically.
+- **Data provider function** (if any) must be `isolated`, and the test function parameters must be subtypes of `readonly`.
+- **Setup and teardown functions** (`before`, `after`, `BeforeEach`, `AfterEach`, `BeforeGroups`, `AfterGroups`) associated with the test must be `isolated`.
 
-### Designing Tests for Parallel Execution
+Tests that do not meet these conditions run sequentially, even when the `--parallel` flag is set. The framework prints diagnostic warnings at the start of execution listing the reason each test was excluded from parallel runs.
+
+### Exclude a test from parallel execution
+
+For tests that depend on shared state or external resources, set `serialExecution` to `true` to force sequential execution regardless of the `--parallel` flag.
 
 ```ballerina
 import ballerina/test;
-import ballerina/uuid;
 
-// Good: Each test uses unique identifiers to avoid conflicts
-@test:Config {
-    groups: ["parallel-safe"]
-}
-function testCreateUniqueOrder() returns error? {
-    string orderId = uuid:createRandomUuid();
-    // Each test run creates a unique order -- no conflicts
-    test:assertTrue(orderId.length() > 0);
+// This test runs in parallel (if isolated conditions are met)
+@test:Config {}
+isolated function testCalculateTotal() {
+    test:assertEquals(10 + 20, 30);
 }
 
-// Bad: Tests that share a fixed resource can conflict in parallel
-// @test:Config {}
-// function testUpdateSharedRecord() {
-//     // Modifies the same record as another test -- not parallel-safe
-// }
+// This test always runs sequentially
+@test:Config {serialExecution: true}
+function testDatabaseMigration() {
+    // Modifies shared database state — not safe for parallel execution
+    test:assertTrue(true);
+}
 ```
 
-## Test Output and Reports
+:::caution When to avoid parallel execution
+Avoid parallel execution when tests share mutable state, use the same database tables, or bind to the same network ports. Use the `serialExecution` flag or test groups to isolate conflicting tests.
+:::
 
-### Console Output
+## Test output and reports
 
-By default, test results appear in the console.
+### Console output
+
+Test results appear in the console by default.
 
 ```
 Compiling source
@@ -128,7 +228,6 @@ Running Tests
 
         [pass] testOrderCreation
         [pass] testOrderValidation
-        [pass] testOrderCancellation
         [fail] testPaymentProcessing
 
                 Error: assertEqual failed
@@ -136,132 +235,63 @@ Running Tests
                     actual:   "declined"
                 at mypackage:tests/payment_test.bal:45
 
-        4 passing
+        2 passing
         1 failing
         0 skipped
 ```
 
-### Test Report Generation
-
-Generate an HTML test report for detailed results.
+### Generate test reports
 
 ```bash
-# Generate a test report
+# HTML test report (without coverage)
 bal test --test-report
 
-# The report is generated at:
-# target/report/test_results.html
+# HTML test report with code coverage
+bal test --test-report --code-coverage
+
+# JaCoCo XML coverage format
+bal test --test-report --code-coverage --coverage-format=xml
 ```
 
-<!-- TODO: Screenshot of HTML test report -->
+The HTML report is generated at `target/report/test_results.html` and includes:
 
-The HTML report includes:
 - Summary of passed, failed, and skipped tests
 - Execution time per test
 - Failure details with stack traces
 - Group-level aggregation
 
-## Rerunning Failed Tests
+![Ballerina Test Report showing 4 total tests with 3 passed, 1 failed, and 0 skipped, along with a package-level breakdown table](/img/develop/test/execute-tests/test-report.png)
 
-During development, focus on fixing failures without rerunning the entire suite.
+### Exclude files from coverage
 
-```bash
-# Run only previously failed tests
-bal test --rerun-failed
-```
-
-## Test Configuration
-
-### Environment-Specific Test Config
-
-Create a `Config.toml` file in the `tests/` directory to provide test-specific configuration values.
-
-```toml
-# tests/Config.toml
-[mypackage]
-backendUrl = "http://localhost:9095/mock"
-dbHost = "localhost"
-dbPort = 5432
-maxRetries = 1
-```
-
-```ballerina
-import ballerina/test;
-
-configurable string backendUrl = ?;
-configurable int maxRetries = ?;
-
-@test:Config {}
-function testWithConfig() {
-    // Uses values from tests/Config.toml
-    test:assertEquals(maxRetries, 1);
-}
-```
-
-### Ballerina.toml Test Settings
-
-Configure test behavior in `Ballerina.toml`.
-
-```toml
-[build-options]
-observabilityIncluded = false
-graalvm = false
-
-[test-options]
-parallel = true
-```
-
-## Continuous Integration
-
-### Running Tests in CI/CD
+Use the `--excludes` flag to omit specific files or directories from coverage calculations.
 
 ```bash
-# CI-friendly command with report generation
-bal test --test-report --code-coverage
-
-# Exit code reflects test results:
-# 0 = all passed
-# 1 = one or more failures
-echo $?
+bal test --test-report --code-coverage --excludes='./generated'
 ```
 
-### Failing the Build on Test Failures
+| Pattern | Effect |
+|---|---|
+| `./` or `./**` | Excludes all source files |
+| `./*` | Excludes default module files only |
+| `./generated/**` | Excludes a specific directory |
+| `./modules/**` | Excludes all module files |
+| `./modules/*/util.bal` | Excludes a specific file across modules |
 
-The `bal test` command returns a non-zero exit code when any test fails, which naturally fails CI pipelines.
-
-```yaml
-# GitHub Actions example
-- name: Run tests
-  run: bal test --test-report --code-coverage
-
-- name: Upload test report
-  if: always()
-  uses: actions/upload-artifact@v4
-  with:
-    name: test-report
-    path: target/report/
-```
-
-## Troubleshooting Test Execution
+## Troubleshooting
 
 | Issue | Solution |
-|-------|----------|
-| Port already in use | Use unique ports per service or add `@test:AfterSuite` cleanup |
-| Tests pass locally, fail in CI | Check for environment-dependent configs in `tests/Config.toml` |
-| Timeout errors | Increase client timeout values in test configurations |
-| Random test failures | Check for shared mutable state; disable parallel execution |
-| Tests not discovered | Verify test files are in the `tests/` directory and functions have `@test:Config` |
+|---|---|
+| Port already in use | Use unique ports per service or add an `@test:AfterSuite {alwaysRun: true}` cleanup function. |
+| Tests pass locally, fail in CI | Check for environment-dependent values in `tests/Config.toml`. |
+| Timeout errors | Increase client timeout values in test configurations. |
+| Random test failures | Check for shared mutable state. Disable parallel execution or use `serialExecution: true`. |
+| Tests not discovered | Verify test files are in the `tests/` directory and functions have `@test:Config`. |
+| Parallel flag has no effect | Ensure test functions and their lifecycle functions are `isolated`. Check diagnostic warnings. |
 
-## Best Practices
+## What's next
 
-- **Run `bal test --groups unit` frequently** during development for fast feedback
-- **Reserve full test suites** (`bal test`) for pre-commit or CI runs
-- **Always generate test reports in CI** using `--test-report` for visibility
-- **Use `--rerun-failed`** to iterate quickly on failures
-- **Design tests to be parallel-safe** by using unique identifiers and isolated resources
-
-## What's Next
-
-- [Code Coverage](code-coverage.md) -- Measure and improve test coverage
-- [Test Groups & Selective Execution](test-groups.md) -- Organize tests with groups
+- [Code coverage](code-coverage.md) -- Measure and improve test coverage
+- [Test groups](test-groups.md) -- Organize tests with groups for selective execution
+- [Mocking](mocking.md) -- Replace external dependencies with controlled stubs
 - [Debugging](/docs/develop/debugging/editor-debugging) -- Debug failing tests step-by-step
