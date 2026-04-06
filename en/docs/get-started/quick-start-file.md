@@ -9,7 +9,7 @@ import useBaseUrl from '@docusaurus/useBaseUrl';
 
 # Quick Start: File Integration
 
-**Time:** Under 10 minutes. **What you'll build:** A file integration that watches a directory for new files, processes them, and writes the output.
+**Time:** Under 10 minutes. **What you'll build:** A file integration that adds an `onModify` handler to track file changes and uses `printInfo` to log file modification events.
 
 File integrations are ideal for batch uploads, scheduled file processing, and ETL workflows triggered by files appearing in a folder or FTP server.
 
