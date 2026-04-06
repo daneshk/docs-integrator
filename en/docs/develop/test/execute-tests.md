@@ -1,7 +1,7 @@
 ---
 sidebar_position: 8
 title: Execute tests
-description: Understand the test lifecycle, run tests from the visual designer or CLI, execute tests in parallel, and generate test reports.
+description: Understand the test lifecycle, run tests from the visual designer or CLI, and execute tests in parallel.
 ---
 
 import Tabs from '@theme/Tabs';
@@ -212,72 +212,6 @@ function testDatabaseMigration() {
 Avoid parallel execution when tests share mutable state, use the same database tables, or bind to the same network ports. Use the `serialExecution` flag or test groups to isolate conflicting tests.
 :::
 
-## Test output and reports
-
-### Console output
-
-Test results appear in the console by default.
-
-```
-Compiling source
-    myorg/mypackage:0.1.0
-
-Running Tests
-
-    mypackage
-
-        [pass] testOrderCreation
-        [pass] testOrderValidation
-        [fail] testPaymentProcessing
-
-                Error: assertEqual failed
-                    expected: "approved"
-                    actual:   "declined"
-                at mypackage:tests/payment_test.bal:45
-
-        2 passing
-        1 failing
-        0 skipped
-```
-
-### Generate test reports
-
-```bash
-# HTML test report (without coverage)
-bal test --test-report
-
-# HTML test report with code coverage
-bal test --test-report --code-coverage
-
-# JaCoCo XML coverage format
-bal test --test-report --code-coverage --coverage-format=xml
-```
-
-The HTML report is generated at `target/report/test_results.html` and includes:
-
-- Summary of passed, failed, and skipped tests
-- Execution time per test
-- Failure details with stack traces
-- Group-level aggregation
-
-![Ballerina Test Report showing 4 total tests with 3 passed, 1 failed, and 0 skipped, along with a package-level breakdown table](/img/develop/test/execute-tests/test-report.png)
-
-### Exclude files from coverage
-
-Use the `--excludes` flag to omit specific files or directories from coverage calculations.
-
-```bash
-bal test --test-report --code-coverage --excludes='./generated'
-```
-
-| Pattern | Effect |
-|---|---|
-| `./` or `./**` | Excludes all source files |
-| `./*` | Excludes default module files only |
-| `./generated/**` | Excludes a specific directory |
-| `./modules/**` | Excludes all module files |
-| `./modules/*/util.bal` | Excludes a specific file across modules |
-
 ## Troubleshooting
 
 | Issue | Solution |
@@ -291,7 +225,7 @@ bal test --test-report --code-coverage --excludes='./generated'
 
 ## What's next
 
-- [Code coverage](code-coverage.md) -- Measure and improve test coverage
+- [Code coverage and reports](code-coverage.md) -- Generate test reports, measure coverage, and configure report formats
 - [Test groups](test-groups.md) -- Organize tests with groups for selective execution
 - [Mocking](mocking.md) -- Replace external dependencies with controlled stubs
 - [Debugging](/docs/develop/debugging/editor-debugging) -- Debug failing tests step-by-step
