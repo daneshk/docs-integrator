@@ -10,7 +10,7 @@
 
 ## Page: Overview & Architecture
 
-**File:** `/docs/get-started/overview-&-architecture.md`
+**File:** `en/docs/get-started/overview-&-architecture.md`
 **Status:** EXISTS — review and enhance if needed
 
 **What to cover:**
