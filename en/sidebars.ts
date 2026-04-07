@@ -302,6 +302,7 @@ const sidebars: SidebarsConfig = {
           items: [
             'connectors/catalog/storage-file/alfresco/setup-guide',
             'connectors/catalog/storage-file/alfresco/action-reference',
+            'connectors/catalog/storage-file/alfresco/example',
           ],
         },
         {
