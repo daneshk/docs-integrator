@@ -636,6 +636,7 @@ const sidebars: SidebarsConfig = {
           items: [
             'connectors/catalog/productivity-collaboration/googleapis.sheets/setup-guide',
             'connectors/catalog/productivity-collaboration/googleapis.sheets/action-reference',
+            'connectors/catalog/productivity-collaboration/googleapis.sheets/example',
           ],
         },
         {
