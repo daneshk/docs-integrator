@@ -1595,6 +1595,7 @@ const sidebars: SidebarsConfig = {
           items: [
             'connectors/catalog/developer-tools/wso2.apim.catalog/setup-guide',
             'connectors/catalog/developer-tools/wso2.apim.catalog/action-reference',
+            'connectors/catalog/developer-tools/wso2.apim.catalog/example',
           ],
         },
         {
