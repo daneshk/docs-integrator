@@ -607,6 +607,7 @@ const sidebars: SidebarsConfig = {
           items: [
             'connectors/catalog/productivity-collaboration/googleapis.calendar/setup-guide',
             'connectors/catalog/productivity-collaboration/googleapis.calendar/action-reference',
+            'connectors/catalog/productivity-collaboration/googleapis.calendar/example',
           ],
         },
         {
