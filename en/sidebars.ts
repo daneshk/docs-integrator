@@ -1075,6 +1075,7 @@ const sidebars: SidebarsConfig = {
           items: [
             'connectors/catalog/marketing-social/mailchimp.marketing/setup-guide',
             'connectors/catalog/marketing-social/mailchimp.marketing/action-reference',
+            'connectors/catalog/marketing-social/mailchimp.marketing/example',
           ],
         },
         {
