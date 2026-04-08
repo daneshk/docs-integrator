@@ -53,21 +53,30 @@ function removeImports(content) {
 function stripJSX(content) {
   let result = content;
 
+  // Remove specifically targeted Docusaurus admonitions (:::tip, :::info, etc.)
+  result = result.replace(/^:::[a-z]+\s*$/gm, '');
+  result = result.replace(/^:::\s*$/gm, '');
+
   // Remove common Docusaurus components but keep content
   // <Tabs>...</Tabs>
   result = result.replace(/<Tabs[^>]*>([\s\S]*?)<\/Tabs>/g, '$1');
   // <TabItem[^>]*>...</TabItem>
   result = result.replace(/<TabItem[^>]*>([\s\S]*?)<\/TabItem>/g, '$1');
+  // <Details[^>]*>...</Details>
+  result = result.replace(/<Details[^>]*>([\s\S]*?)<\/Details>/g, '$1');
 
-  // Remove self-closing or empty components that don't make sense in plain markdown
+  // Remove self-closing or empty components (not followed by content in a tag)
   result = result.replace(/<[A-Z][a-zA-Z0-9]*\s*\/?>/g, '');
   result = result.replace(/<\/[A-Z][a-zA-Z0-9]*>/g, '');
 
   // Remove div/span tags with classNames but keep content
-  result = result.replace(/<(div|span)\s+className="[^"]*"[^>]*>([\s\S]*?)<\/\1>/g, '$2');
+  result = result.replace(/<(div|span)[^>]*>([\s\S]*?)<\/\1>/g, '$2');
   
-  // Final pass to remove any remaining JSX-like tags that represent components
+  // Final pass to remove any remaining custom JSX tags that look like components
   result = result.replace(/<[A-Z][a-zA-Z0-9]*[^>]*>([\s\S]*?)<\/[A-Z][a-zA-Z0-9]*>/g, '$1');
+
+  // Remove HTML comments
+  result = result.replace(/<!--[\s\S]*?-->/g, '');
 
   return result;
 }

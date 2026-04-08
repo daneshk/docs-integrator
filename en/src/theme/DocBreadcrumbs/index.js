@@ -141,7 +141,16 @@ export default function DocBreadcrumbsWrapper(props) {
   const history = useHistory();
 
   // URL for the raw markdown content
-  const markdownUrl = location.pathname.replace(/\/$/, '') + '.md';
+  const getMarkdownUrl = () => {
+    let path = location.pathname;
+    if (path.endsWith('/')) {
+      path += 'index.md';
+    } else {
+      path += '.md';
+    }
+    return path;
+  };
+  const markdownUrl = getMarkdownUrl();
 
   // Read connector version data from the plugin's global data.
   let allConnectorVersions = {};

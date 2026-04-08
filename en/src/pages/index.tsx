@@ -5,6 +5,7 @@ import {useHistory} from '@docusaurus/router';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import Layout from '@theme/Layout';
 import Heading from '@theme/Heading';
+import MarkdownButton from '@site/src/theme/DocBreadcrumbs/MarkdownButton';
 
 import styles from './index.module.css';
 
@@ -273,6 +274,9 @@ function HomepageHeader(): ReactNode {
   return (
     <header className={styles.heroBanner}>
       <div className="container">
+        <div className={styles.heroTopActions}>
+           <MarkdownButton markdownUrl="/home-content.md" />
+        </div>
         <Heading as="h1">WSO2 Integrator</Heading>
         <p className={styles.heroSubtitle}>
           Build integrations with low-code simplicity and pro-code power.
