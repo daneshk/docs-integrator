@@ -94,7 +94,7 @@ Try this sample in WSO2 Integration Platform.
 
 ## More code examples
 
-The `HubSpot Marketing Campaigns ` connector provides practical examples illustrating usage in various scenarios. Explore these [examples](https://github.com/ballerina-platform/module-ballerinax-hubspot.marketing.campaigns/tree/main/examples), covering the following use cases:
+The `HubSpot Marketing Campaigns` connector provides practical examples illustrating usage in various scenarios. Explore these [examples](https://github.com/ballerina-platform/module-ballerinax-hubspot.marketing.campaigns/tree/main/examples), covering the following use cases:
 
 1. [Batch of Campaigns](https://github.com/ballerina-platform/module-ballerinax-hubspot.marketing.campaigns/tree/main/examples/batch_of_campaigns) - Fully manage a batch of campaigns
 2. [Campaign Lifecycle with Assets](https://github.com/ballerina-platform/module-ballerinax-hubspot.marketing.campaigns/tree/main/examples/campaign_lifecycle_with_assets) - Full life cycle of a campaign associated with assets such as forms
