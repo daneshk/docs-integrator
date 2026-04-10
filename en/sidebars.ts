@@ -1447,6 +1447,7 @@ const sidebars: SidebarsConfig = {
           items: [
             'connectors/catalog/erp-business/sap.s4hana.api_salesorganization_srv/setup-guide',
             'connectors/catalog/erp-business/sap.s4hana.api_salesorganization_srv/action-reference',
+            'connectors/catalog/erp-business/sap.s4hana.api-salesorganization-srv/example',
           ],
         },
         {
