@@ -142,13 +142,18 @@ export default function DocBreadcrumbsWrapper(props) {
 
   // URL for the raw markdown content
   const getMarkdownUrl = () => {
-    let path = location.pathname;
-    if (path.endsWith('/')) {
-      path += 'index.md';
-    } else {
-      path += '.md';
+    const path = location.pathname;
+    // Only generate markdown URLs for docs pages
+    if (!path.startsWith('/docs/')) {
+      return null;
     }
-    return path;
+    let markdownPath = path;
+    if (markdownPath.endsWith('/')) {
+      markdownPath += 'index.md';
+    } else {
+      markdownPath += '.md';
+    }
+    return markdownPath;
   };
   const markdownUrl = getMarkdownUrl();
 
@@ -267,7 +272,7 @@ export default function DocBreadcrumbsWrapper(props) {
           <DocBreadcrumbs {...props} />
           {pageSlug === 'overview' && <CategoryBadge categorySlug={categorySlug} />}
         </div>
-        <MarkdownButton markdownUrl={markdownUrl} />
+        {markdownUrl && <MarkdownButton markdownUrl={markdownUrl} />}
       </div>
     );
   }
@@ -279,7 +284,7 @@ export default function DocBreadcrumbsWrapper(props) {
           <DocBreadcrumbs {...props} />
           {pageSlug === 'overview' && <CategoryBadge categorySlug={categorySlug} />}
         </div>
-        <MarkdownButton markdownUrl={markdownUrl} />
+        {markdownUrl && <MarkdownButton markdownUrl={markdownUrl} />}
       </div>
     );
   }
@@ -360,7 +365,7 @@ export default function DocBreadcrumbsWrapper(props) {
           </React.Fragment>
         ))}
       </nav>
-      <MarkdownButton markdownUrl={markdownUrl} />
+      {markdownUrl && <MarkdownButton markdownUrl={markdownUrl} />}
     </div>
   );
 }
