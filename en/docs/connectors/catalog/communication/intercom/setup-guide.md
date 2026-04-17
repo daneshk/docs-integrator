@@ -70,24 +70,7 @@ intercom:ConnectionConfig config = {auth: {token}};
 intercom:Client intercomClient = check new (config);
 ```
 
-## Step 5: Install the connector
-
-Add the dependency to your `Ballerina.toml`:
-
-```toml
-[[dependency]]
-org = "ballerinax"
-name = "intercom"
-version = "0.1.0"
-```
-
-Or use the Ballerina CLI:
-
-```bash
-bal add ballerinax/intercom
-```
-
-## Step 6: (Optional) Find your ticket type ID
+## Step 5: (Optional) Find your ticket type ID
 
 If you plan to create tickets, you will need a ticket type ID from your workspace. Retrieve the available ticket types with:
 

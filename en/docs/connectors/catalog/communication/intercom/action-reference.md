@@ -7,7 +7,7 @@ description: "Full reference for all operations available in the Intercom connec
 
 This reference covers all operations exposed by the `ballerinax/intercom` connector. All operations are available on the `intercom:Client`.
 
-## Initialise the client
+## Initialize the client
 
 ```ballerina
 import ballerinax/intercom;
@@ -683,6 +683,8 @@ intercom:SearchRequest payload = {
 All client operations return `T|error`. Use `check` to propagate errors or handle them explicitly:
 
 ```ballerina
+import ballerina/log;
+
 intercom:ContactWithPush|error result = intercomClient->/contacts.post(payload);
 if result is error {
     log:printError("Failed to create contact", result);

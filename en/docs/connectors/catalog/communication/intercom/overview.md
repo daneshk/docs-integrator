@@ -37,7 +37,7 @@ See the **[Action reference](action-reference.md)** for the full list of operati
 
 ## How to contribute
 
-As an open source project, WSO2 welcomes contributions from the community.
+As an open-source project, WSO2 welcomes contributions from the community.
 
 To contribute to the code for this connector, create a pull request in the following repository:
 
